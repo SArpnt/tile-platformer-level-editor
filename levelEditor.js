@@ -1,6 +1,16 @@
 'use strict';
-function startEditor(startData, { canvas }) {
-	canvas.addEventListener('mousemove', function (e) {
+function startEditor(startData, { canvas, zoomIn, zoomOut, }) {
+	{ // zoom
+		let zoomLevels = [1/TILE_WIDTH, .25, .5, 1, 2, 3, 4, 5, 6, 7, 8];
+		let z = 4;
+		zoomIn.addEventListener('click', () => {
+			canvas.style.zoom = zoomLevels[++z] || zoomLevels[--z];
+		});
+		zoomOut.addEventListener('click', () => {
+			canvas.style.zoom = zoomLevels[--z] || zoomLevels[++z];
+		});
+	}
+	canvas.addEventListener('mousemove', e => {
 		let rect = this.getBoundingClientRect();
 		let spriteX = Math.floor((e.pageX - this.offsetLeft) * (this.offsetWidth / rect.width / getComputedStyle(this).getPropertyValue('zoom')) - rect.left);
 		let spriteY = Math.floor((e.pageY - this.offsetTop) * (this.offsetHeight / rect.height / getComputedStyle(this).getPropertyValue('zoom')) - rect.top);

@@ -5,17 +5,18 @@
 	<script src="https://cdn.jsdelivr.net/gh/SArpnt/tile-platformer-engine@latest/sScript.min.js"></script>
 	<script src="levelEditor.js"></script>
 	<style>
+		.pixel {
+			image-rendering: pixelated;
+		}
 		.zoom-2x {
 			zoom: 2;
 			image-rendering: pixelated;
 		}
-
 		.flex-column {
 			display: flex;
 			flex-direction: column;
 			flex-wrap: wrap;
 		}
-
 		.scroll-area {
 			resize: both;
 			overflow: scroll;
@@ -32,14 +33,21 @@
 	sprite: document.getElementById('sprite'),
 }, {
 	canvas: document.getElementById('canvas'),
+	zoomIn: document.getElementById('zoomIn'),
+	zoomOut: document.getElementById('zoomOut'),
 })">
 	<div style="display: flex; flex-direction: row; max-width: 100%;">
-		<div width="640" height="480" class="scroll-area">
-			<canvas id="canvas" class="zoom-2x"></canvas>
+		<div class="scroll-area" style="scrollbar-width: thin; width: 640px; height: 480px">
+			<canvas id="canvas" class="pixel" style="zoom: 2"></canvas>
 		</div>
 		<div id="asset" class="zoom-2x flex-column" style="background: darkmagenta;"></div>
 		<div id="tile" class="zoom-2x flex-column" style="background: darkred;"></div>
 		<div id="sprite" class="zoom-2x flex-column" style="background: darkorange;"></div>
+	</div>
+	<div>
+		zoom:
+		<button id="zoomIn">+</button>
+		<button id="zoomOut">-</button>
 	</div>
 	<div>FPS: <span id="fps"></span></div>
 
