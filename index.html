@@ -8,10 +8,6 @@
 		.pixel {
 			image-rendering: pixelated;
 		}
-		.zoom-2x {
-			zoom: 2;
-			image-rendering: pixelated;
-		}
 		.flex-column {
 			display: flex;
 			flex-direction: column;
@@ -38,11 +34,11 @@
 })">
 	<div style="display: flex; flex-direction: row; max-width: 100%;">
 		<div class="scroll-area" style="scrollbar-width: thin; width: 640px; height: 480px">
-			<canvas id="canvas" class="pixel" style="zoom: 2"></canvas>
+			<canvas id="canvas" class="pixel"></canvas>
 		</div>
-		<div id="asset" class="zoom-2x flex-column" style="background: darkmagenta;"></div>
-		<div id="tile" class="zoom-2x flex-column" style="background: darkred;"></div>
-		<div id="sprite" class="zoom-2x flex-column" style="background: darkorange;"></div>
+		<div id="asset" class="pixel flex-column" style="background: darkmagenta;"></div>
+		<div id="tile" class="pixel flex-column" style="background: darkred;"></div>
+		<div id="sprite" class="pixel flex-column" style="background: darkorange;"></div>
 	</div>
 	<div>
 		zoom:
