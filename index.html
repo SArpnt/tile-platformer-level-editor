@@ -1,8 +1,8 @@
 <html>
 
 <head>
-	<script src="https://cdn.jsdelivr.net/gh/SArpnt/tile-platformer-engine@latest/script.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/gh/SArpnt/tile-platformer-engine@latest/sScript.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/SArpnt/tile-platformer-engine@6b891fc/script.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/SArpnt/tile-platformer-engine@6b891fc/sScript.min.js"></script>
 	<script src="levelEditor.js"></script>
 	<style>
 		.pixel {
@@ -22,6 +22,7 @@
 
 <body onload="startEditor({
 	step: false,
+	autoDraw: false,
 	canvas: document.getElementById('canvas'),
 	fps: document.getElementById('fps'),
 	asset: document.getElementById('asset'),
