@@ -1,7 +1,8 @@
 'use strict';
-let mousePos = {
-	sprite: { x: 0, y: 0 },
-	tile: { x: 0, y: 0 },
+let mouse = {
+	spritePos: { x: 0, y: 0 },
+	tilePos: { x: 0, y: 0 },
+	buttons: 0,
 };
 function startEditor(startData, { canvas, zoomIn, zoomOut, }) {
 	let selectctx;
@@ -23,12 +24,21 @@ function startEditor(startData, { canvas, zoomIn, zoomOut, }) {
 	}
 	canvas.addEventListener('mousemove', e => {
 		let rect = canvas.getBoundingClientRect();
-		mousePos.sprite.x = Math.floor((e.pageX - rect.left) * canvas.width / canvas.offsetWidth);
-		mousePos.sprite.y = Math.floor((e.pageY - rect.top) * canvas.height / canvas.offsetHeight);
-		mousePos.tile.x = Math.floor(mousePos.sprite.x / TILE_WIDTH);
-		mousePos.tile.y = Math.floor(mousePos.sprite.y / TILE_HEIGHT);
+		mouse.spritePos.x = Math.floor((e.pageX - rect.left) * canvas.width / canvas.offsetWidth);
+		mouse.spritePos.y = Math.floor((e.pageY - rect.top) * canvas.height / canvas.offsetHeight);
+		mouse.tilePos.x = Math.floor(mouse.spritePos.x / TILE_WIDTH);
+		mouse.tilePos.y = Math.floor(mouse.spritePos.y / TILE_HEIGHT);
+		interact();
 		updateSelectCanvas();
 		draw(false);
+	});
+	canvas.addEventListener('mousedown', e => {
+		mouse.buttons = e.buttons;
+		interact();
+		draw(false);
+	});
+	canvas.addEventListener('mouseup', e => {
+		mouse.buttons = e.buttons;
 	});
 	function updateSelectCanvas() {
 		selectctx.fillStyle = '#00ffff60';
@@ -40,34 +50,22 @@ function startEditor(startData, { canvas, zoomIn, zoomOut, }) {
 			level.height * TILE_HEIGHT,
 		);
 
-		let hoveredRect = level.compressed.tiles.length - level.compressed.tiles.slice().reverse().findIndex(e =>
-			mousePos.tile.x >= e.x &&
-			mousePos.tile.x <= (e.xe || e.x) &&
-			mousePos.tile.y >= e.y &&
-			mousePos.tile.y <= (e.ye || e.y)
-		) - 1;
-
-		for (let i in level.compressed.tiles) {
-			let rect = level.compressed.tiles[i],
-				ye = typeof rect.ye != 'undefined' ? rect.ye : rect.y,
-				xe = typeof rect.xe != 'undefined' ? rect.xe : rect.x;
-
-			if (i == hoveredRect)
-				selectctx.fillRect(
-					rect.x * TILE_WIDTH,
-					rect.y * TILE_HEIGHT,
-					(xe + 1 - rect.x) * TILE_WIDTH,
-					(ye + 1 - rect.y) * TILE_HEIGHT,
-				);
-			else
-				selectctx.clearRect(
-					rect.x * TILE_WIDTH,
-					rect.y * TILE_HEIGHT,
-					(xe + 1 - rect.x) * TILE_WIDTH,
-					(ye + 1 - rect.y) * TILE_HEIGHT,
-				);
-		}
+		selectctx.fillRect(
+			mouse.tilePos.x * TILE_WIDTH,
+			mouse.tilePos.y * TILE_HEIGHT,
+			TILE_WIDTH,
+			TILE_HEIGHT,
+		);
 	};
+	function interact() {
+		if (mouse.buttons & 1) {
+			sScript.setTile(
+				mouse.tilePos.x,
+				mouse.tilePos.y,
+				0
+			)
+		}
+	}
 	let o = copyTiles;
 	copyTiles = function (ox, oy) {
 		o(...arguments);
