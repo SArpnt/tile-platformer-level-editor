@@ -1,8 +1,8 @@
 <html>
 
 <head>
-	<script src="https://cdn.jsdelivr.net/gh/SArpnt/tile-platformer-engine@cf23741/script.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/gh/SArpnt/tile-platformer-engine@cf23741/sScript.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/SArpnt/tile-platformer-engine@da99ffe/script.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/SArpnt/tile-platformer-engine@da99ffe/sScript.min.js"></script>
 	<script src="levelEditor.js"></script>
 	<style>
 		.pixel {
@@ -13,9 +13,19 @@
 			flex-direction: column;
 			flex-wrap: wrap;
 		}
+		.flex-space {
+			margin: -2px;
+		}
+		.flex-space > * {
+			margin: 2px;
+		}
 		.scroll-area {
 			resize: both;
 			overflow: scroll;
+		}
+		.selected, #tile>[data-tile]:hover {
+			opacity: 62%;
+			background: #00ffff;
 		}
 	</style>
 </head>
@@ -37,9 +47,15 @@
 		<div class="scroll-area" style="scrollbar-width: thin; width: 640px; height: 480px">
 			<canvas id="canvas" class="pixel"></canvas>
 		</div>
-		<div id="asset" class="pixel flex-column" style="background: darkmagenta;"></div>
-		<div id="tile" class="pixel flex-column" style="background: darkred;"></div>
-		<div id="sprite" class="pixel flex-column" style="background: darkorange;"></div>
+		<div style="background: darkmagenta;">
+			<div id="asset" class="pixel flex-column flex-space"></div>
+		</div>
+		<div style="background: darkred;">
+			<div id="tile" class="pixel flex-column flex-space"></div>
+		</div>
+		<div style="background: darkorange;">
+			<div id="sprite" class="pixel flex-column flex-space"></div>
+		</div>
 	</div>
 	<div>
 		zoom:

@@ -5,7 +5,8 @@ let mouse = {
 	buttons: 0,
 };
 function startEditor(startData, { canvas, zoomIn, zoomOut, }) {
-	let selectctx;
+	let selectctx,
+		currentTile;
 	{ // zoom
 		let zLevels = [.25, .5, 1, 2, 3, 4, 5, 6, 7, 8];
 		let z = 2;
@@ -58,12 +59,12 @@ function startEditor(startData, { canvas, zoomIn, zoomOut, }) {
 		);
 	};
 	function interact() {
-		if (mouse.buttons & 1) {
+		if (mouse.buttons & 1 && currentTile != undefined) {
 			sScript.setTile(
 				mouse.tilePos.x,
 				mouse.tilePos.y,
-				0
-			)
+				currentTile
+			);
 		}
 	}
 	let o = copyTiles;
@@ -79,5 +80,15 @@ function startEditor(startData, { canvas, zoomIn, zoomOut, }) {
 	canvas.width = level.width * TILE_WIDTH;
 	canvas.height = level.height * TILE_HEIGHT;
 	selectctx = new OffscreenCanvas(level.width * TILE_WIDTH, level.height * TILE_HEIGHT).getContext('2d');
-	level.onAssetsLoaded(_=>draw(false))
+	level.onAssetsLoaded(function () {
+		setTimeout(() => {
+			for (let e of Array.from(startData.tile.children))
+				e.addEventListener('click', () => {
+					currentTile = e.dataset.tile;
+					Array.from(document.getElementById('tile').children).forEach(e => e.classList.remove('selected'));
+					e.classList.add('selected');
+				});
+		}, 0);
+		draw(false);
+	});
 }
